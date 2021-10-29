@@ -1,0 +1,97 @@
+<div id="accordion">
+  <div id="openTransactionsCard" class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Mes Offres en cours
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <div class="card-columns d-inline m-2" *ngFor="let t of openedTransactions">
+          <app-transaction-preview [transaction]="t"></app-transaction-preview>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="closeTransactionsCard" class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Mes Offres terminées
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        <div class="card-columns d-inline m-2" *ngFor="let t of closedTransactions">
+          <app-transaction-preview [transaction]="t"></app-transaction-preview>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="noResponseProposalCard" class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Mes propositions sans réponse
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body">
+        TODO
+      </div>
+    </div>
+  </div>
+
+  <div id="acceptProposalCard" class="card">
+    <div class="card-header" id="headingFour">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Mes propositions acceptées
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+      <div class="card-body">
+        TODO
+      </div>
+    </div>
+  </div>
+
+  <div id="refuseProposalCard" class="card">
+    <div class="card-header" id="headingFive">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          Mes propositions refusées
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+      <div class="card-body">
+        TODO
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- MODAL -->
+<ng-template #newTransactionContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Nouvelle Transaction</h5>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-transaction-create-form (closeModalEvent)="close()"></app-transaction-create-form>
+  </div>
+</ng-template>
+<!-- FIN MODAL -->

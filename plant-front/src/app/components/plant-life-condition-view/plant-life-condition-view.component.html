@@ -1,0 +1,22 @@
+<ul style="list-style: none; display: contents">
+  <li *ngIf="plant?.Brightness">
+    <fa-icon [icon]="['fas', 'sun']" [fixedWidth]="true" size="lg" style="color: orangered"></fa-icon>
+    {{plant?.Brightness}}
+  </li>
+  <li *ngIf="plant?.Humidity">
+    <fa-icon [icon]="['fas', 'tint']" [fixedWidth]="true" size="lg" style="color: cadetblue"></fa-icon>
+    {{plant?.Humidity}}
+  </li>
+  <li *ngIf="plant?.TemperatureCMin">
+    <fa-icon [icon]="['fas', 'thermometer-empty']" [fixedWidth]="true" size="lg" style="color: darkblue"></fa-icon>
+    {{plant?.TemperatureCMin}}
+  </li>
+  <li *ngIf="plant?.TemperatureCMax">
+    <fa-icon [icon]="['fas', 'thermometer-full']" [fixedWidth]="true" size="lg" style="color: darkred"></fa-icon>
+    {{plant?.TemperatureCMax}}
+  </li>
+  <li *ngIf="plant?.TemperatureCIdeal">
+    <fa-icon [icon]="['fas', 'thermometer-half']" [fixedWidth]="true" size="lg" style="color: darkgreen"></fa-icon>
+    {{plant?.TemperatureCIdeal}}
+  </li>
+</ul>

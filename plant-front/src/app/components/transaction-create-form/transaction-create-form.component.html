@@ -1,0 +1,141 @@
+<form #transactionCreateForm *ngIf="transaction">
+  <div class="form-row">
+    <div class="form-group col-md-6" *ngIf="!userPlant">
+      <label for="plantSelect">Plante : </label>
+      <select
+        [(ngModel)]="transaction.PlantId"
+        [ngModelOptions]="{ standalone: true }"
+        class="custom-select"
+        id="plantSelect"
+      >
+        <option *ngFor="let p of plantsValues" [value]="p.Id">
+          {{ p.ScientificName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-6" *ngIf="userPlant">
+      <label for="plantName">Plante : </label>
+      <input
+        [(ngModel)]="transaction.PlantId"
+        id="plantName"
+        [placeholder]="userPlant.Plant?.ScientificName"
+        class="form-control"
+        type="text"
+        disabled
+      />
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="plantSizeSelect">Taille de la plante : </label>
+      <select
+        [(ngModel)]="transaction.PlantSizeId"
+        [ngModelOptions]="{ standalone: true }"
+        class="custom-select"
+        id="plantSizeSelect"
+      >
+        <option *ngFor="let ps of plantSizesValues" [value]="ps.Id">
+          {{ ps.FrenchLabel }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="transactionTypeSelect">Type de transaction : </label>
+    <select
+      [(ngModel)]="transaction.TransactionTypes"
+      [ngModelOptions]="{ standalone: true }"
+      class="custom-select"
+      id="transactionTypeSelect"
+      multiple
+    >
+      <option *ngFor="let tt of transactionTypesValues" [value]="tt">
+        {{ tt.FrenchLabel }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="price">Prix : </label>
+    <input
+      [(ngModel)]="transaction.Price"
+      [defaultValue]="0.01"
+      [ngModelOptions]="{ standalone: true }"
+      class="form-control mt-2"
+      id="price"
+      min="0.01"
+      step="0.01"
+      type="number"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description : </label>
+    <textarea
+      [(ngModel)]="transaction.Description"
+      [ngModelOptions]="{ standalone: true }"
+      class="form-control mt-2"
+      cols="10"
+      id="description"
+      name="description"
+      placeholder="Décrivez votre plante/bouture, précisez quelquechose..."
+      required
+      rows="5"
+      type="text"
+    ></textarea>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="ville">Ville : </label>
+      <input
+        [(ngModel)]="transaction.LocationCity"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control mt-2"
+        id="ville"
+        name="ville"
+        placeholder="Paris"
+        required
+        type="text"
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label for="zipCode">Code Postal : </label>
+      <input
+        [(ngModel)]="transaction.LocationPostalCode"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control mt-2"
+        id="zipCode"
+        maxlength="5"
+        minlength="5"
+        name="zipCode"
+        placeholder="75014"
+        required
+        type="text"
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label for="deliveryOptionSelect">Options de livraison : </label>
+      <select
+        [(ngModel)]="transaction.DeliveryOptions"
+        [ngModelOptions]="{ standalone: true }"
+        class="custom-select"
+        id="deliveryOptionSelect"
+        multiple
+      >
+        <option *ngFor="let d of deliveryOptionsValues" [value]="d">
+          {{ d.FrenchLabel }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <button
+    (click)="sendForm()"
+    class="btn btn-success float-right"
+    type="submit"
+  >
+    Valider
+  </button>
+</form>

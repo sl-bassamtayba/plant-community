@@ -1,0 +1,58 @@
+<div class="card" style="width: 18rem">
+  <div class="card-header">
+    <div class="row">
+      <div *ngFor="let tp of transaction?.TransactionTypes">
+        <div class="col">
+          <fa-icon
+            *ngIf="tp.EnglishLabel.includes('Exchange')"
+            [icon]="['fas', 'exchange-alt']"
+          ></fa-icon>
+          <fa-icon
+            *ngIf="tp.EnglishLabel.includes('Sale')"
+            [icon]="['fas', 'euro-sign']"
+          ></fa-icon>
+          <fa-icon
+            *ngIf="tp.EnglishLabel.includes('Donation')"
+            [icon]="['fas', 'gift']"
+          ></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <img
+    alt="Card image cap"
+    class="card-img-top"
+    src="{{ principalPictureLocation }}"
+  />
+
+  <div class="card-body">
+    <h5 class="card-title">{{ transaction?.Plant?.ScientificName }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      {{ transaction?.PlantSize?.FrenchLabel }}
+    </h6>
+    <p class="card-text">
+      <em>par {{ transaction?.Seller?.Name }}</em> <br />
+      <strong *ngIf="transaction?.Price">{{ transaction?.Price }} € </strong>
+    </p>
+  </div>
+
+  <div class="card-footer text-center">
+    <button
+      *ngIf="transaction?.Seller?.Id !== loggedUser?.Id"
+      class="btn btn-success h-100"
+      routerLink="/transaction/{{ transaction?.Id }}"
+      type="button"
+    >
+      Je veux !
+    </button>
+    <button
+      *ngIf="transaction?.Seller?.Id === loggedUser?.Id"
+      class="btn btn-primary h-100"
+      routerLink="/transaction/{{ transaction?.Id }}"
+      type="button"
+    >
+      Détails
+    </button>
+  </div>
+</div>

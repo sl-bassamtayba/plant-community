@@ -1,0 +1,50 @@
+<div class="card mb-3">
+
+  <div class="card-header">
+    <h5>{{careTypeSelected?.FrenchLabel}}</h5>
+    <button class="btn btn-info" (click)="createGenericCare()">Ajouter un rappel</button>
+  </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let pce of plantCaresExtended;let i = index" class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h6 class="card-title">Période n° {{i + 1}}</h6>
+          </div>
+          <div class="col">
+            <button class="btn btn-danger float-right" (click)="deletePlantCare(pce)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="form-group form-inline">
+          <label for="frequenciesSelect">Fréquence : </label>
+          <select (change)="updateFrequency(pce)" [(ngModel)]="pce.PlantCare.FrequencyId"
+                  [value]="pce.PlantCare.FrequencyId" class="form-control ml-2 w-25" id="frequenciesSelect">
+            <option *ngFor="let f of frequencies" [value]="f.Id">{{f.FrenchLabel}}</option>
+          </select>
+        </div>
+
+        <div *ngFor="let month of pce.MonthValues" class="form-check form-check-inline">
+          <input (change)="updatePeriod(pce, month)" [(ngModel)]="month.active" [name]="month.label"
+                 [ngModelOptions]="{standalone: true}" [value]="month.active"
+                 class="form-check-input" id="defaultCheck1" type="checkbox">
+          <label class="form-check-label" for="defaultCheck1">
+            {{month.abbreviation}}
+          </label>
+        </div>
+      </li>
+    </ul>
+
+  <div class="card-footer text-muted" *ngIf="plantCaresExtended && plantCaresExtended.length > 0">
+    <div class="form-group form-inline">
+      <label for="actionDate">
+        Effectué le
+      </label>
+      <input (change)="onChangeLastActionDate($event)"
+             [value]="getLastActionDate()"
+             [max]="getMaxDate()"
+             class="form-control ml-2 w-25" id="actionDate" type="date">
+    </div>
+  </div>
+
+</div>

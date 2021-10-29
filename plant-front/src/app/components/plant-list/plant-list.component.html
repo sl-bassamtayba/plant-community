@@ -1,0 +1,9 @@
+<div *ngIf="plants" >
+
+  <input class="form-control mb-5" type="text" [(ngModel)]="searchValue" placeholder="Votre rechercher...">
+
+  <div class="card-columns d-inline m-2" *ngFor="let plant of plants | SimpleGenericFilter : 'scientificName' : searchValue : 'includes'">
+    <app-plant-preview [plant]="plant"></app-plant-preview>
+  </div>
+
+</div>

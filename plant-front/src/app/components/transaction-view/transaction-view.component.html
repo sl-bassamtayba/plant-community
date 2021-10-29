@@ -1,0 +1,160 @@
+<div *ngIf="transaction">
+
+  <!-- TRANSACTION IS CLOSED -->
+  <div *ngIf="transaction.IsClosed == true">
+    <h5 style="color: red">
+      La vente est terminée !
+      La plante a été achetée par {{transaction?.Buyer?.Name}} le {{transaction?.End | date: "dd/MM/y h:mm" || ''}}
+    </h5>
+  </div>
+
+  <!-- TRANSACTION -->
+  <div class="row mb-3 p-3 bg-light">
+
+    <!-- PICTURE -->
+    <div class="col col-sm-auto">
+      <img alt="" src="{{defaultPicture}}" width="120">
+    </div>
+
+    <!-- PLANT INFO -->
+    <div class="col">
+      <h4>{{transaction?.Plant?.ScientificName}}</h4>
+      <p>{{transaction?.PlantSize?.FrenchLabel}}</p>
+
+      <em>mise en vente le {{transaction?.Start | date: "dd/MM/y h:mm" || ''}} par {{transaction?.Seller?.Name}}</em>
+
+      <br><br>
+      <p>{{transaction?.Description}}</p>
+
+    </div>
+
+    <!-- ACTION -->
+    <div class="col col-sm-auto float-right" *ngIf="loggedUser?.Id === transaction?.Seller?.Id && transaction.IsClosed === false">
+      <button (click)="open(updateTransactionContent)" class="btn btn-info">
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'pen']"></fa-icon>
+      </button>
+      <br>
+      <button (click)="open(deleteTransactionContent)" class="btn btn-warning mt-2">
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'trash-alt']"></fa-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <div *ngIf="!transaction.IsClosed" class="row mb-3 p-3 bg-light">
+    <!-- SALE -->
+    <div class="col">
+      <h5>La Transaction : </h5>
+
+      <ul *ngFor="let tt of transaction.TransactionTypes">
+        <li>
+          <span *ngIf="tt.EnglishLabel.includes('Exchange')"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon>
+            {{tt.FrenchLabel}}</span>
+          <span *ngIf="tt.EnglishLabel.includes('Sale')"><fa-icon [icon]="['fas', 'euro-sign']"></fa-icon>
+            {{tt.FrenchLabel}}</span>
+          <span *ngIf="tt.EnglishLabel.includes('Donation')"><fa-icon [icon]="['fas', 'gift']"></fa-icon>
+            {{tt.FrenchLabel}}</span>
+        </li>
+      </ul>
+
+      <p *ngIf="transaction && transaction.Price && transaction.Price > 0">Prix : {{transaction?.Price}}€</p>
+
+      <button (click)="open(transactionProposalContent)" *ngIf="loggedUser?.Id !== transaction?.Seller?.Id" class="btn btn-success"
+              type="button">Faire une proposition
+      </button>
+
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="col">
+      <h5>La Livraison : </h5>
+
+      <ul *ngFor="let do of transaction?.DeliveryOptions">
+        <li>
+          <span *ngIf="do.EnglishLabel.includes('Hand')"><fa-icon [icon]="['fas', 'handshake']"></fa-icon>
+            {{do.FrenchLabel}} : {{transaction?.LocationCity}} - {{transaction?.LocationPostalCode}}
+          </span>
+          <span *ngIf="do.EnglishLabel.includes('Home')"><fa-icon [icon]="['fas', 'home']"></fa-icon>
+            {{do.FrenchLabel}}</span>
+          <span *ngIf="do.EnglishLabel.includes('Relay Point')"><fa-icon [icon]="['fas', 'truck']"></fa-icon>
+            {{do.FrenchLabel}}</span>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <!-- WISHLIST USER IF EXCHANGE -->
+  <div *ngIf="isTransactionIsExchange() && !transaction.IsClosed && loggedUser?.Id !== transaction?.Seller?.Id" class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>WishList du vendeur : </h5>
+
+      <div *ngFor="let plant of sellerPlantWishlist" class="card-columns d-inline m-2">
+        <app-plant-preview [plant]="plant"></app-plant-preview>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROPOSAL -->
+  <div *ngIf="loggedUser?.Id == transaction?.Seller?.Id" class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>Propositions : </h5>
+      <div *ngFor="let p of proposals">
+        <app-transaction-proposal-view (ProposalEvent)="proposalEventReceiver($event)"
+                                       [proposal]="p"></app-transaction-proposal-view>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- MODAL -->
+<!-- NEW PROPOSAL -->
+<ng-template #transactionProposalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Nouvelle Proposition</h5>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-transaction-proposal-create-form (closeModalEvent)="closeModalEventReceiver($event)"
+                                          [transaction]="transaction"></app-transaction-proposal-create-form>
+  </div>
+</ng-template>
+
+<!-- UPDATE TRANSACTION -->
+<ng-template #updateTransactionContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Modification</h5>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    TODO
+  </div>
+</ng-template>
+
+<!-- DELETE TRANSACTION -->
+<ng-template #deleteTransactionContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Suppression</h5>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <p class="font-weight-bold">Attention ! Cette opération est irréversible !</p>
+
+  </div>
+  <div class="modal-footer">
+    <button (click)="close()" class="btn btn-warning">Annuler</button>
+    <button (click)="deleteTransaction()" class="btn btn-danger">Confirmer</button>
+  </div>
+</ng-template>
+<!-- FIN MODAL -->

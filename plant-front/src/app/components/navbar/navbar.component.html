@@ -1,0 +1,86 @@
+<!-- Image and text -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img alt="" class="d-inline-block align-top" height="24" src="../../assets/images/plant.png" width="30">
+      Plant Community
+    </a>
+
+    <!-- USER LOGGED -->
+    <ul *ngIf="loggedUser" class="navbar-nav float-right">
+      <li class="nav-item mr-5">
+        Bienvenue {{loggedUser.Name}} !
+      </li>
+      <li class="nav-item">
+        <button (click)="logout()"
+                class="btn btn-danger"
+                type="button">
+          <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
+        </button>
+      </li>
+    </ul>
+
+    <!-- USER NOT LOGGED -->
+    <ul *ngIf="!loggedUser" class="navbar-nav float-right">
+      <li class="nav-item">
+        <a (click)="open(loginContent)" class="nav-link">S'inscrire</a>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-info" (click)="open(loginContent)" class="nav-link">
+          <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
+        </button>
+      </li>
+    </ul>
+
+
+  </div>
+</nav>
+
+<!-- SUB NAV BAR -->
+<nav *ngIf="loggedUser" class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+
+  <ul class="navbar-nav">
+    <li>
+      <a class="nav-link" routerLink="/plant/list">Liste des plantes</a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="/plant/wishlist">WishList</a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="/userplant/list">Ma Plantothèque</a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="/transaction/list">Mes Offres & Propositions</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- MODAL -->
+
+<!-- LOGIN -->
+<ng-template #loginContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Se Connecter</h4>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <button (click)="login()" class="btn btn-success">Se Connecter</button>
+  </div>
+</ng-template>
+
+<!-- REGISTER -->
+<ng-template #registerContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Inscription</h4>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <button (click)="register()" class="btn btn-success" disabled>S'inscrire</button>
+  </div>
+</ng-template>
+
+<!-- FIN MODAL -->

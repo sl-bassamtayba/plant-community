@@ -1,0 +1,48 @@
+<div class="card" style="width: 18rem">
+  <img
+    alt="Card image cap"
+    class="card-img-top img-fluid"
+    src="{{ principalPictureLocation }}"
+  />
+
+  <div class="card-body">
+    <h5 class="card-title text-center">{{ plant?.ScientificName }}</h5>
+    <app-plant-life-condition-view
+      [plant]="plant"
+    ></app-plant-life-condition-view>
+  </div>
+
+  <div class="card-footer text-center">
+    <div aria-label="Card Buttons" class="btn-group" role="group">
+      <!-- PLANT DETAILS -->
+      <button class="btn btn-primary" routerLink="/plant/{{ plant?.Id }}">
+        <fa-icon [icon]="['fas', 'eye']"></fa-icon>
+      </button>
+
+      <!-- WISHLLIST -->
+      <button
+        (click)="addToWishlist()"
+        *ngIf="loggedUser && isUserPlant == false && isInWishList === false"
+        class="btn btn-info"
+      >
+        <fa-icon [icon]="['fas', 'heart']"></fa-icon>
+      </button>
+      <button
+        (click)="deleteFromWishlist()"
+        *ngIf="loggedUser && isUserPlant == false && isInWishList === true"
+        class="btn btn-warning"
+      >
+        <fa-icon [icon]="['fas', 'heart-broken']"></fa-icon>
+      </button>
+
+      <!-- USER PLANT -->
+      <button
+        (click)="createGenericUserPlant()"
+        *ngIf="loggedUser && isUserPlant == false"
+        class="btn btn-success"
+      >
+        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>

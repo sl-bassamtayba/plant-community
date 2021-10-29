@@ -1,0 +1,25 @@
+<div class="card" style="width: 18rem" *ngIf="userPlant">
+  <img
+    alt="Card image cap"
+    class="card-img-top img-fluid"
+    src="{{ principalPictureLocation }}"
+  />
+
+  <div class="card-body">
+    <h5 class="card-title text-center">{{ userPlant?.Nickname }}</h5>
+    <h6 class="card-subtitle text-center text-muted font-italic">
+      {{ userPlant?.Plant?.ScientificName }}
+    </h6>
+  </div>
+
+  <div class="card-footer text-center">
+    <div aria-label="Card Buttons" class="btn-group" role="group">
+      <button
+        class="btn btn-primary"
+        routerLink="/userplant/{{ userPlant?.Id }}"
+      >
+        <fa-icon [icon]="['fas', 'eye']"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>

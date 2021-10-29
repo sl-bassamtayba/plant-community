@@ -1,0 +1,100 @@
+<div *ngIf="loggedUser && userPlant">
+
+  <div class="row mb-5">
+    <div class="col col-sm-auto">
+      <img alt="" src="{{defaultPicture}}" width="120">
+    </div>
+    <div class="col">
+      <h3>{{userPlant.Nickname}}</h3>
+
+      <a routerLink="/plant/{{userPlant?.Plant?.Id}}">{{userPlant?.Plant?.ScientificName}}</a>
+    </div>
+    <div class="col col-sm-auto float-right">
+      <button (click)="open(updateUserPlantContent)" class="btn btn-info">
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'pen']"></fa-icon>
+      </button>
+      <br>
+      <button (click)="open(deleteUserPlantContent)" class="btn btn-danger mt-2">
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'trash-alt']"></fa-icon>
+      </button>
+      <br>
+      <button (click)="open(createTransactionContent, {size: 'xl'})" class="btn btn-warning mt-2">
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'euro-sign']"></fa-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col">
+      <h4 class="mb-3">Les Conditions de vie de cette Pépette</h4>
+      <app-plant-life-condition-view [plant]="userPlant?.Plant"></app-plant-life-condition-view>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col">
+      <h4 class="mb-3">L'entretien de cette beauté</h4>
+      <app-plant-care-view [userPlant]="userPlant"></app-plant-care-view>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+
+<!-- UPDATE USER PLANT -->
+<ng-template #updateUserPlantContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modification</h4>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form>
+      <div class="form-group">
+        <label for="nickname">Son petit surnom : </label>
+        <input *ngIf="userPlant" [(ngModel)]="userPlant.Nickname" [ngModelOptions]="{standalone: true}" class="form-control w-50" id="nickname"
+               type="text">
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button (click)="close()" class="btn btn-danger">Annuler</button>
+    <button (click)="updateUserPlant()" class="btn btn-success">Modifier</button>
+  </div>
+</ng-template>
+
+<!-- DELETE USER PLANT -->
+<ng-template #deleteUserPlantContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Suppression</h4>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <p class="font-weight-bold">Attention ! Cette opération est irréversible !</p>
+
+  </div>
+  <div class="modal-footer">
+    <button (click)="close()" class="btn btn-warning">Annuler</button>
+    <button (click)="deleteUserPlant()" class="btn btn-danger">Confirmer</button>
+  </div>
+</ng-template>
+
+<!-- NEW TRANSACTION -->
+<ng-template #createTransactionContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Nouvelle Transaction</h4>
+    <button (click)="close()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-transaction-create-form [userPlant]="userPlant" (closeModalEvent)="closeModalEventReceiver($event)"></app-transaction-create-form>
+  </div>
+</ng-template>

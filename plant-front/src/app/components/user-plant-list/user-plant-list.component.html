@@ -1,0 +1,9 @@
+<div *ngIf="loggedUser && userPlants">
+  <!--
+  <input class="form-control mb-5" type="text" [(ngModel)]="searchValue" placeholder="Votre rechercher...">
+  <div class="card-columns d-inline m-2" *ngFor="let up of userPlants | SimpleGenericFilter : 'nickname' : searchValue : 'includes'">
+  -->
+  <div class="card-columns d-inline m-2" *ngFor="let up of userPlants">
+    <app-user-plant-preview [userPlant]="up"></app-user-plant-preview>
+  </div>
+</div>

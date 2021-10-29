@@ -1,0 +1,5 @@
+<div *ngIf="userPlant && careTypes">
+  <div *ngFor="let ct of careTypes" class="accordion" id="accordionCare">
+    <app-plant-care-form [userPlant]="userPlant" [careTypeSelected]="ct"></app-plant-care-form>
+  </div>
+</div>

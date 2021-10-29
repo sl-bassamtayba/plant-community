@@ -1,0 +1,10 @@
+<div *ngIf="loggedUser && plants">
+
+  <input [(ngModel)]="searchValue" class="form-control mb-5" placeholder="Votre rechercher..." type="text">
+
+  <div *ngFor="let plant of plants | SimpleGenericFilter : 'scientificName' : searchValue : 'includes'"
+       class="card-columns d-inline m-2">
+    <app-plant-preview [plant]="plant"></app-plant-preview>
+  </div>
+
+</div>

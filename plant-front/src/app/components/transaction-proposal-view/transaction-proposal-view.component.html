@@ -1,0 +1,40 @@
+<div class="container border-top p-3 mb-1">
+
+  <div class="row">
+    <!-- PROPOSAL -->
+    <div class="col">
+
+      <h6>{{proposal?.User?.Name}} vous a fait une proposition !</h6>
+      <em>fait le {{proposal?.Date | date: "dd/MM/y h:mm" || ''}}</em>
+
+      <br><br>
+      <p style="white-space: pre-wrap">{{proposal?.Text}}</p>
+
+    </div>
+
+    <!-- REPLY -->
+    <div class="col border-left">
+      <!-- NO REPLY -->
+      <div *ngIf="proposal?.Validation == undefined">
+        <button type="button" class="btn btn-success m-1" (click)="acceptProposal()">Accepter</button>
+        <button type="button" class="btn btn-danger m-1" (click)="refuseProposal()">Refuser</button>
+      </div>
+
+      <!-- ACCEPTED PROPOSAL -->
+      <div *ngIf="proposal?.Validation == true" style="color:green">
+        Vous avez accepté cette proposition ! <br>
+        Vous pouvez contacter l'acheteur via son mail : {{proposal?.User?.Email}}
+        <br>
+        <button type="button" class="btn btn-warning mt-3" (click)="cancelProposal()">Annuler ma décision</button>
+      </div>
+
+      <!-- REFUSED PROPOSAL -->
+      <div *ngIf="proposal?.Validation == false" style="color:red">
+        Vous avez refusé cette proposition !
+        <br>
+        <button type="button" class="btn btn-warning mt-3" (click)="cancelProposal()">Annuler ma décision</button>
+      </div>
+
+    </div>
+  </div>
+</div>

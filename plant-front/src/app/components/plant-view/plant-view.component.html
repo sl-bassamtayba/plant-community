@@ -1,0 +1,126 @@
+<div *ngIf="plant">
+  <!-- HEADER -->
+  <div class="row mb-3 p-3 bg-light">
+    <div class="col col-sm-auto">
+      <img alt="" src="{{ principalPictureLocation }}" width="120" />
+    </div>
+    <div class="col">
+      <h5>{{ plant.ScientificName }}</h5>
+
+      <ul style="list-style-type: none">
+        <li *ngIf="plant.LocationOrigin">
+          <fa-icon [icon]="['fas', 'map-marker']"></fa-icon>
+          {{ plant.LocationOrigin }}
+        </li>
+        <br />
+        <li *ngIf="plant.Family">Famille : {{ plant.Family }}</li>
+        <li *ngIf="plant.Genus">Genre : {{ plant.Genus }}</li>
+        <li *ngIf="plant.Species">Espèce : {{ plant.Species }}</li>
+        <li *ngIf="plant.Cultivar">Cultivar : {{ plant.Cultivar }}</li>
+        <li *ngIf="plant.Variety">Variété : {{ plant.Variety }}</li>
+        <br />
+        <li *ngIf="plant.Description">
+          <fa-icon [icon]="['fas', 'comment']"></fa-icon>
+          {{ plant.Description }}
+        </li>
+      </ul>
+
+      <div class="btn-group m-1">
+        <button
+          (click)="addToWishlist()"
+          *ngIf="loggedUser && isUserPlant == false && isInWishList === false"
+          class="btn btn-info"
+        >
+          Ajouter à ma WishList
+        </button>
+        <button
+          (click)="deleteFromWishlist()"
+          *ngIf="loggedUser && isUserPlant == false && isInWishList === true"
+          class="btn btn-warning"
+        >
+          Supprimer de ma WishList
+        </button>
+      </div>
+      <div class="btn-group m-1">
+        <button
+          (click)="createGenericUserPlant()"
+          *ngIf="loggedUser && isUserPlant == false"
+          class="btn btn-success"
+        >
+          Ajouter à la plantothèque
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER NAMES -->
+  <div
+    *ngIf="plant.CommonNames && plant.CommonNames.length > 0"
+    class="row mb-3 p-3 bg-light"
+  >
+    <div class="col">
+      <h5>Synonymes</h5>
+      <ul *ngFor="let n of plant.CommonNames">
+        <li>{{ n }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LIFE CONDITION & CARE -->
+  <div class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>Conditions de vie</h5>
+      <app-plant-life-condition-view
+        [plant]="plant"
+      ></app-plant-life-condition-view>
+    </div>
+    <div class="col">
+      <h5>Entretien</h5>
+      TODO
+    </div>
+  </div>
+
+  <!-- PICTURES -->
+  <div class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>Galerie Photos</h5>
+      TODO
+    </div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>Pécho la !</h5>
+
+      <!-- LOGGED -->
+      <div *ngIf="loggedUser && transactions">
+        <div *ngFor="let t of transactions" class="card-columns d-inline m-2">
+          <app-transaction-preview [transaction]="t"></app-transaction-preview>
+        </div>
+        <div *ngIf="transactions.length <= 0" class="row ml-5">
+          <p class="font-italic">
+            Il n'y a actuellement aucune transaction pour la choupette ici
+            présente !
+          </p>
+        </div>
+      </div>
+
+      <!-- NOT LOGGED -->
+      <div *ngIf="!loggedUser" class="row ml-5">
+        <p style="color: red">
+          Vous n'êtes pas inscrit ou connecté a notre merveilleux site. Vous
+          n'avez donc pas accès aux transactions disponibles... !
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVICES -->
+  <div class="row mb-3 p-3 bg-light">
+    <div class="col">
+      <h5>Les Conseils de Pro</h5>
+      TODO
+    </div>
+  </div>
+</div>

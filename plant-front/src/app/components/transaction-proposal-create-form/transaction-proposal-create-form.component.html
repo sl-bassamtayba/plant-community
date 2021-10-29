@@ -1,0 +1,22 @@
+<form *ngIf="newProposal" #tpCreateForm>
+
+  <label for="proposalText">
+    Votre Message : <br>
+    <em>indiquez ce que vous proposez en échange, si le prix vous convient, l'option de livraison que vous souhaitez...</em>
+  </label>
+
+  <textarea [(ngModel)]="newProposal.Text"
+            class="form-control mt-2"
+            rows="5" cols="10"
+            name="proposalText" id="proposalText"
+            type="text"
+            placeholder="..."
+            required>
+
+  </textarea>
+
+  <button type="submit" class="btn btn-success m-2"
+          [disabled]="newProposal.Text == undefined || null"
+          (click)="sendForm()">Valider</button>
+
+</form>
