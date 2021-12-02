@@ -31,7 +31,7 @@ namespace PlantApi
 
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped(typeof(IPlantService), typeof(PlantServices.Services.Implementations.PlantService));
+            services.AddScoped<IPlantService, PlantServices.Services.Implementations.PlantService>();
             services.AddScoped(typeof(IQuestionService), typeof(QuestionService));
             services.AddScoped(typeof(ITransactionService), typeof(TransactionService));
             services.AddScoped(typeof(IUserService), typeof(UserService));
